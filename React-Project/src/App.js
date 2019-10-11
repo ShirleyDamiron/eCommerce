@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { HashRouter, Switch, Route } from "react-router-dom";
 import Nav from "./Components/Nav/Nav";
 import Home from "./Components/Home/Home";
 import Products from "./Components/Products/Products";
@@ -21,9 +21,10 @@ class App extends React.Component {
   };
 
   componentDidMount(){
-    fetch("/products")
+    fetch("https://shirley-api.herokuapp.com/products")
       .then(response => response.json())
-      .then(response => this.setState({products: response}));
+      .then(response => this.setState({products: response}))
+      .catch(err => console.log(err))
   }
   //   slider
   goToPrevSlide = () => {
@@ -76,7 +77,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <BrowserRouter basename="/eCommerce">
+      <HashRouter basename={process.env.PUBLIC_URL}>
         <Nav />
         <Switch>
           <Route
@@ -104,7 +105,7 @@ class App extends React.Component {
           <Route path="/contact" component={Contact} />
         </Switch>
         <Footer />
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }
